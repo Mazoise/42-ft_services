@@ -1,0 +1,4 @@
+secretGenerator:
+- name: db_user
+  literals:
+  - password=db_psw
