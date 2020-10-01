@@ -11,8 +11,11 @@ echo "--------------------------------------------------------"
 echo "-------------- BUILDING DOCKER IMAGES ------------------"
 echo "--------------------------------------------------------"
 
+docker stop nginx
+docker rm nginx
 docker build -t nginx srcs/nginx
-docker run -itd -p 8080:80 --name nginx nginx
+docker run -itd -p 8080:80 -p 443:443 -p 22:22 --name nginx nginx
+docker ps
 
 echo "--------------------------------------------------------"
 echo "---------------- CREATING CONTAINERS -------------------"
