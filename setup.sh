@@ -21,12 +21,22 @@ if [ "$1" != "-p" ] ; then
 	CPU_COUNT=$(cat /proc/cpuinfo | grep "cpu cores" | tail -n1 | rev | cut -d" " -f1 | rev)
 	if [ $CPU_COUNT -lt 2 ] ; then
 		>&2 echo -e "
-	$RED Minikube needs at least 2 CPUs to run properly. You only have $CPU_COUNT available.
+	$RED Error : Minikube needs at least 2 CPUs to run properly. You only have $CPU_COUNT available.
 		Please reload your VM with more CPU. $NO_COLOR
 	"
 		exit
 	fi
-
+	DOCKER_RIGHT=$(id -nG $USER | grep docker)
+	if [ "$DOCKER_RIGHT" == "" ] ; then
+		>&2 echo -e "
+	$RED Error : Docker does not have the rights for $USER, please enter your password to accept this change. $NO_COLOR
+	"
+		sudo usermod -aG docker $USER
+		>&2 echo -e "
+	$RED You must now logout and back in for it to take effect. $NO_COLOR
+	"
+		exit
+	fi
 	minikube start --vm-driver=docker #
 	minikube dashboard &
 fi
