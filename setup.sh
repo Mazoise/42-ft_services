@@ -41,7 +41,6 @@ if [ "$1" != "-p" ] ; then
 	minikube dashboard &
 fi
 eval $(minikube docker-env) #utiliser le docker de minikube
-# sudo usermod -aG docker user42 ## CHECK IF DOCKER WORKS BEFORE
 
 echo "--------------------------------------------------------"
 echo "-------------- BUILDING DOCKER IMAGES ------------------"
