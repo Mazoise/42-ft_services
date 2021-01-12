@@ -1,0 +1,8 @@
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Docker-Distribution-Api-Version: registry/2.0
+Www-Authenticate: Bearer realm="https://auth.docker.io/token",service="registry.docker.io",scope="repository:ratelimitpreview/test:pull",error="invalid_token"
+Date: Tue, 12 Jan 2021 17:23:27 GMT
+Content-Length: 164
+Strict-Transport-Security: max-age=31536000
+

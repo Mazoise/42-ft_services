@@ -4,6 +4,13 @@ GREEN="\033[0;32m"
 RED="\033[0;31m"
 NO_COLOR="\033[0m"
 
+unexpected_error() {
+	>&2 echo -e "
+	$RED Error : UNEXPECTED ERROR from $1, error code $2 $NO_COLOR
+	"
+		exit
+}
+
 if [ "$1" != "-p" ] ; then
 
 	echo "--------------------------------------------------------"
@@ -37,7 +44,7 @@ if [ "$1" != "-p" ] ; then
 	"
 		exit
 	fi
-	minikube start --vm-driver=docker #
+	minikube start --vm-driver=docker || unexpected_error "minikube launcher" $?
 	minikube dashboard &
 fi
 eval $(minikube docker-env) #utiliser le docker de minikube
@@ -46,15 +53,17 @@ echo "--------------------------------------------------------"
 echo "-------------- BUILDING DOCKER IMAGES ------------------"
 echo "--------------------------------------------------------"
 
-docker build -t nginx srcs/nginx
+docker build -t nginx srcs/nginx || unexpected_error "nginx in docker" $?
+docker build -t mysql srcs/mysql || unexpected_error "mysql in docker" $?
 
 echo "--------------------------------------------------------"
 echo "---------------- CREATING CONTAINERS -------------------"
 echo "--------------------------------------------------------"
 
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
-kubectl apply -f srcs/metallb
-kubectl apply -f srcs/nginx
+kubectl apply -f srcs/metallb/namespace.yaml || unexpected_error "metallb in kubernetes" $?
+kubectl apply -f srcs/metallb/metallb.yaml || unexpected_error "metallb in kubernetes" $?
+kubectl apply -f srcs/metallb/conf.yaml || unexpected_error "metallb in kubernetes" $?
+kubectl apply -f srcs/nginx || unexpected_error "nginx in kubernetes" $?
+kubectl apply -f srcs/mysql || unexpected_error "mysql in kubernetes" $?
 
 # kubectl apply -f srcs/MySQL

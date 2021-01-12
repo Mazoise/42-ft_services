@@ -1,6 +1,6 @@
 FROM alpine
 
-ENV USER		admin
+ENV USER		mchardin
 ENV PASSWORD	psw
 
 RUN apk update && \
