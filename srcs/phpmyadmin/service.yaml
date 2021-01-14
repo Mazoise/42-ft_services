@@ -9,8 +9,8 @@ metadata:
 spec:
   ports:
 	- name: phpmyadmin
-	  port: 5050
-	  targetPort: 5050
+	  port: 5000
+	  targetPort: 5000
   type: LoadBalancer
   selector:
     app: phpmyadmin

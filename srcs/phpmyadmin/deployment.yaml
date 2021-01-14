@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: wordpress
-  name: wordpress
+    app: phpmyadmin
+  name: phpmyadmin
 spec:
   selector:
     matchLabels:
-      app: wordpress
+      app: phpmyadmin
   template:
     metadata:
       labels:
-        app: wordpress
+        app: phpmyadmin
     spec:
       containers:
-      - image: wordpress
-        name: wordpress
+      - image: phpmyadmin
+        name: phpmyadmin
         imagePullPolicy: Never
         ports:
-          - name: wordpress
-            containerPort: 5050
-      restartPolicy: Always
+          - name: phpmyadmin
+            containerPort: 5000
+	  restartPolicy: Always

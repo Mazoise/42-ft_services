@@ -10,6 +10,6 @@ COPY my.cnf /etc/my.cnf
 
 WORKDIR /tmp
 COPY config.sql .
-RUN mysql_install_db --user=mysql
+COPY entrypoint.sh .
 
-CMD mysqld
+CMD sh /tmp/entrypoint.sh
