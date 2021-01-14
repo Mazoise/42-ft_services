@@ -20,4 +20,4 @@ spec:
         ports:
           - name: phpmyadmin
             containerPort: 5000
-	  restartPolicy: Always
+      restartPolicy: Always

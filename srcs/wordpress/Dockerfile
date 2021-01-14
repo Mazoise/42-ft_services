@@ -1,11 +1,8 @@
 FROM alpine
 
-ENV USER		mchardin
-ENV PASSWORD	psw
-
 RUN apk update && \
-	apk add \
-	nginx \
+    apk add \
+    nginx \
     php7.3 \
     php7.3-fpm \
     php7.3-mbstring \
@@ -16,14 +13,13 @@ RUN apk update && \
     php7.3-gettext \
     php7.3-cgi \
     php7.3-mysql \
-	openssh \
-	openssl && \
-	adduser -D -g 'www' www && \
-	mkdir /www && \
-	chown -R www:www /var/lib/nginx && \
-	chown -R www:www /www && \
-	rm -rf /etc/nginx/nginx.conf && \
-	mkdir /run/nginx
+    openssl && \
+    adduser -D -g 'www' www && \
+    mkdir /www && \
+    chown -R www:www /var/lib/nginx && \
+    chown -R www:www /www && \
+    rm -rf /etc/nginx/nginx.conf && \
+    mkdir /run/nginx
 
 COPY index.html /www
 COPY nginx.conf /etc/nginx
@@ -34,10 +30,7 @@ RUN tar zxf wordpress.tar.gz --strip-components=1 && \
 COPY srcs/wp-config.php .
 
 RUN openssl req -x509 -out /etc/ssl/certs/myserver.crt -keyout /etc/ssl/private/myserver.key \
-  -newkey rsa:2048 -nodes -sha256 \
-  -subj '/CN=test-certificate'
-
-RUN ssh-keygen -A
-RUN adduser -D ${USER} && echo ${USER}:${PASSWORD} | chpasswd 
+    -newkey rsa:2048 -nodes -sha256 \
+    -subj '/CN=test-certificate'
 
 CMD /usr/sbin/sshd && nginx -g "daemon off;"

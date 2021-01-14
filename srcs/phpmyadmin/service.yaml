@@ -8,9 +8,9 @@ metadata:
     metallb.universe.tf/address-pool: my-ip-space
 spec:
   ports:
-	- name: phpmyadmin
-	  port: 5000
-	  targetPort: 5000
+  - name: phpmyadmin
+    port: 5000
+    targetPort: 5000
   type: LoadBalancer
   selector:
     app: phpmyadmin
