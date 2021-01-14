@@ -1,5 +1,7 @@
 FROM alpine
 
+EXPOSE 5050
+
 RUN apk update && \
     apk add \
     nginx \
@@ -19,17 +21,20 @@ RUN apk update && \
 	php7-xmlreader \
 	php7-zip \
 	php7-zlib \
+    supervisor \
     openssl && \
     adduser -D -g 'www' www && \
     mkdir /www && \
     chown -R www:www /var/lib/nginx && \
     chown -R www:www /www && \
     rm -rf /etc/nginx/nginx.conf && \
-    mkdir /run/nginx
+    mkdir /run/nginx /var/www/wordpress
 
-COPY index.html /www
-COPY nginx.conf /etc/nginx
+COPY nginx.conf /etc/nginx/
+COPY supervisord.conf /etc/
 
+WORKDIR /var/www/wordpress/
+COPY index.html .
 COPY wordpress.tar.gz .
 RUN tar zxf wordpress.tar.gz --strip 1 && \
     rm wordpress.tar.gz
@@ -39,4 +44,4 @@ RUN openssl req -x509 -out /etc/ssl/certs/myserver.crt -keyout /etc/ssl/private/
     -newkey rsa:2048 -nodes -sha256 \
     -subj '/CN=test-certificate'
 
-CMD wordpress && nginx -g "daemon off;"
+CMD supervisord -c /etc/supervisord.conf

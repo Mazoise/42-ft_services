@@ -8,9 +8,9 @@ metadata:
     metallb.universe.tf/address-pool: my-ip-space
 spec:
   ports:
-	- name: wordpress
-	  port: 5050
-	  targetPort: 5050
+  - name: wordpress
+    port: 5050
+    targetPort: 5050
   type: LoadBalancer
   selector:
     app: wordpress
