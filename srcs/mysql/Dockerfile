@@ -1,6 +1,7 @@
 FROM alpine
 
 EXPOSE 3306
+
 USER root
 
 RUN apk update && \

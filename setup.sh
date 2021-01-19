@@ -55,7 +55,7 @@ echo "--------------------------------------------------------"
 docker build -t nginx srcs/nginx || unexpected_error "nginx in docker" $?
 docker build -t mysql srcs/mysql || unexpected_error "mysql in docker" $?
 docker build -t phpmyadmin srcs/phpmyadmin || unexpected_error "phpmyadmin in docker" $?
-# docker build -t wordpress srcs/wordpress || unexpected_error "wordpress in docker" $?
+docker build -t wordpress srcs/wordpress || unexpected_error "wordpress in docker" $?
 
 echo "--------------------------------------------------------"
 echo "---------------- CREATING CONTAINERS -------------------"
@@ -67,4 +67,4 @@ kubectl apply -f srcs/metallb/conf.yaml || unexpected_error "metallb in kubernet
 kubectl apply -f srcs/nginx || unexpected_error "nginx in kubernetes" $?
 kubectl apply -f srcs/mysql || unexpected_error "mysql in kubernetes" $?
 kubectl apply -f srcs/phpmyadmin || unexpected_error "phpmyadmin in kubernetes" $?
-# kubectl apply -f srcs/wordpress || unexpected_error "wordpress in kubernetes" $?
+kubectl apply -f srcs/wordpress || unexpected_error "wordpress in kubernetes" $?

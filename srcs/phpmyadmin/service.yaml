@@ -6,9 +6,10 @@ metadata:
   name: phpmyadmin
   annotations:
     metallb.universe.tf/address-pool: my-ip-space
+    metallb.universe.tf/allow-shared-ip: commun-ip
 spec:
   ports:
-  - name: phpmyadmin
+  - name: https
     port: 5000
     targetPort: 5000
   type: LoadBalancer

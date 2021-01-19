@@ -6,9 +6,10 @@ metadata:
   name: wordpress
   annotations:
     metallb.universe.tf/address-pool: my-ip-space
+    metallb.universe.tf/allow-shared-ip: commun-ip
 spec:
   ports:
-  - name: wordpress
+  - name: https
     port: 5050
     targetPort: 5050
   type: LoadBalancer

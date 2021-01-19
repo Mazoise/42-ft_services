@@ -92,3 +92,6 @@ if ( !defined('ABSPATH') )
 
 /** Réglage des variables de WordPress et de ses fichiers inclus. */
 require_once(ABSPATH . 'wp-settings.php');
+
+define('WP_HOME', '172.0.17.2');
+define('WP_SITEURL', '172.0.17.2');

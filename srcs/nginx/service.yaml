@@ -6,6 +6,7 @@ metadata:
   name: nginx
   annotations:
     metallb.universe.tf/address-pool: my-ip-space
+    metallb.universe.tf/allow-shared-ip: commun-ip
 spec:
   ports:
   - name: http
