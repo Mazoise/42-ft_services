@@ -1,6 +1,6 @@
 FLUSH PRIVILEGES;
-SET PASSWORD FOR root@'localhost' = PASSWORD('psw');
+SET PASSWORD FOR root@'172.0.17.2' = PASSWORD('psw');
 FLUSH PRIVILEGES;
 CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-GRANT ALL ON wordpress.* TO 'mchardin'@'localhost' IDENTIFIED BY 'psw';
+GRANT ALL ON wordpress.* TO 'mchardin'@'172.0.17.2' IDENTIFIED BY 'psw';
 FLUSH PRIVILEGES;

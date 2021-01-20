@@ -38,11 +38,11 @@ $cfg['Servers'][$i]['AllowNoPassword'] = false;
  * phpMyAdmin configuration storage settings.
  */
 
-/* User used to manipulate with storage */
-// $cfg['Servers'][$i]['controlhost'] = '';
-// $cfg['Servers'][$i]['controlport'] = '';
-// $cfg['Servers'][$i]['controluser'] = 'pma';
-// $cfg['Servers'][$i]['controlpass'] = 'pmapass';
+// /* User used to manipulate with storage */
+// $cfg['Servers'][$i]['controlhost'] = 'mysql';
+// $cfg['Servers'][$i]['controlport'] = '3306';
+// $cfg['Servers'][$i]['controluser'] = 'mchardin';
+// $cfg['Servers'][$i]['controlpass'] = 'psw';
 
 /* Storage database and tables */
 // $cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
