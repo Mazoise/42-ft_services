@@ -21,9 +21,9 @@ RUN apk update && \
 	php7-xmlreader \
 	php7-zip \
 	php7-zlib \
-	openssl \
+	php7-fpm \
 	supervisor && \
-	mkdir /run/nginx /var/www/wordpress && \
+	mkdir /run/nginx /var/www/phpmyadmin && \
 	adduser -D -g 'www' www && \
 	chown -R www:www /var/lib/nginx && \
 	chown -R www:www /var/www
@@ -31,16 +31,10 @@ RUN apk update && \
 COPY nginx.conf /etc/nginx/
 COPY supervisord.conf /etc/
 
-WORKDIR /var/www/wordpress/
-COPY index.html .
-COPY phpMyAdmin.tar.gz .
-RUN mkdir phpmyadmin testindex && \
-    tar zxf phpMyAdmin.tar.gz --strip 1 -C phpmyadmin && \
-    rm phpMyAdmin.tar.gz
-COPY config.inc.php phpmyadmin/
-
-RUN openssl req -x509 -out /etc/ssl/certs/myserver.crt -keyout /etc/ssl/private/myserver.key \
-  -newkey rsa:2048 -nodes -sha256 \
-  -subj '/CN=test-certificate'
+WORKDIR /var/www/phpmyadmin
+COPY phpmyadmin.tar.gz .
+RUN tar zxf phpmyadmin.tar.gz --strip 1 && \
+    rm phpmyadmin.tar.gz
+COPY config.inc.php .
 
 CMD supervisord

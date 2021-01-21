@@ -21,7 +21,7 @@ RUN apk update && \
 	php7-xmlreader \
 	php7-zip \
 	php7-zlib \
-	openssl \
+	php7-fpm \
     supervisor && \
 	mkdir /run/nginx /var/www/wordpress && \
 	adduser -D -g 'www' www && \
@@ -31,15 +31,10 @@ RUN apk update && \
 COPY nginx.conf /etc/nginx/
 COPY supervisord.conf /etc/
 
-WORKDIR /var/www/wordpress/
-COPY index.html .
+WORKDIR /var/www/wordpress
 COPY wordpress.tar.gz .
 RUN tar zxf wordpress.tar.gz --strip 1 && \
     rm wordpress.tar.gz
 COPY wp-config.php .
-
-RUN openssl req -x509 -out /etc/ssl/certs/myserver.crt -keyout /etc/ssl/private/myserver.key \
-  -newkey rsa:2048 -nodes -sha256 \
-  -subj '/CN=test-certificate'
 
 CMD supervisord

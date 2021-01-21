@@ -49,22 +49,38 @@ fi
 eval $(minikube docker-env) #utiliser le docker de minikube
 
 echo "--------------------------------------------------------"
-echo "-------------- BUILDING DOCKER IMAGES ------------------"
-echo "--------------------------------------------------------"
-
-docker build -t nginx srcs/nginx || unexpected_error "nginx in docker" $?
-docker build -t mysql srcs/mysql || unexpected_error "mysql in docker" $?
-docker build -t phpmyadmin srcs/phpmyadmin || unexpected_error "phpmyadmin in docker" $?
-docker build -t wordpress srcs/wordpress || unexpected_error "wordpress in docker" $?
-
-echo "--------------------------------------------------------"
-echo "---------------- CREATING CONTAINERS -------------------"
+echo "---------------------- METALLB -------------------------"
 echo "--------------------------------------------------------"
 
 kubectl apply -f srcs/metallb/namespace.yaml || unexpected_error "metallb in kubernetes" $?
 kubectl apply -f srcs/metallb/metallb.yaml || unexpected_error "metallb in kubernetes" $?
 kubectl apply -f srcs/metallb/conf.yaml || unexpected_error "metallb in kubernetes" $?
+
+echo "--------------------------------------------------------"
+echo "----------------------- NGINX --------------------------"
+echo "--------------------------------------------------------"
+
+docker build -t nginx srcs/nginx || unexpected_error "nginx in docker" $?
 kubectl apply -f srcs/nginx || unexpected_error "nginx in kubernetes" $?
+
+echo "--------------------------------------------------------"
+echo "----------------------- MYSQL --------------------------"
+echo "--------------------------------------------------------"
+
+docker build -t mysql srcs/mysql || unexpected_error "mysql in docker" $?
 kubectl apply -f srcs/mysql || unexpected_error "mysql in kubernetes" $?
+
+echo "--------------------------------------------------------"
+echo "--------------------- PHPMYADMIN -----------------------"
+echo "--------------------------------------------------------"
+
+docker build -t phpmyadmin srcs/phpmyadmin || unexpected_error "phpmyadmin in docker" $?
 kubectl apply -f srcs/phpmyadmin || unexpected_error "phpmyadmin in kubernetes" $?
+
+echo "--------------------------------------------------------"
+echo "--------------------- WORDPRESS ------------------------"
+echo "--------------------------------------------------------"
+
+docker build -t wordpress srcs/wordpress || unexpected_error "wordpress in docker" $?
 kubectl apply -f srcs/wordpress || unexpected_error "wordpress in kubernetes" $?
+
