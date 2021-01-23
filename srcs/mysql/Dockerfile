@@ -7,7 +7,7 @@ USER root
 RUN apk update && \
     apk add mysql mysql-client
 
-COPY my.cnf /etc/my.cnf
+COPY my.cnf /etc/
 
 WORKDIR /tmp
 COPY config.sql .

@@ -30,6 +30,7 @@ RUN apk update && \
 
 COPY nginx.conf /etc/nginx/
 COPY supervisord.conf /etc/
+COPY php-fpm.conf /etc/php7/
 
 WORKDIR /var/www/phpmyadmin
 COPY phpmyadmin.tar.gz .

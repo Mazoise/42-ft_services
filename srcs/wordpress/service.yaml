@@ -9,7 +9,7 @@ metadata:
     metallb.universe.tf/allow-shared-ip: commun-ip
 spec:
   ports:
-  - name: https
+  - name: http
     port: 5050
     targetPort: 5050
   type: LoadBalancer

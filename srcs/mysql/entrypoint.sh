@@ -1,3 +1,2 @@
-mysql_install_db --user=mysql
-
+mysql_install_db
 mysqld

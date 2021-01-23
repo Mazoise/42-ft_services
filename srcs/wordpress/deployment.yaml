@@ -18,6 +18,6 @@ spec:
         name: wordpress
         imagePullPolicy: Never
         ports:
-          - name: https
+          - name: http
             containerPort: 5050
       restartPolicy: Always
