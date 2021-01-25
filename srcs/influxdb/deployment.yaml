@@ -20,10 +20,3 @@ spec:
         ports:
         - name: influxdb
           containerPort: 8086
-    #     volumeMounts:
-    #     - name: influxdb-persistent-storage
-    #       mountPath: /var/lib/influxdb
-    #   volumes:
-    #   - name: influxdb-persistent-storage
-    #     persistentVolumeClaim:
-    #       claimName: influxdb-pv-claim
