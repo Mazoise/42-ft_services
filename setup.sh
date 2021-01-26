@@ -46,14 +46,12 @@ if [ "$1" != "-p" ] ; then
 	minikube start --vm-driver=docker || unexpected_error "minikube launcher" $?
 	minikube dashboard &
 fi
-eval $(minikube docker-env) #utiliser le docker de minikube
+eval $(minikube docker-env)
 
 echo "--------------------------------------------------------"
 echo "---------------------- METALLB -------------------------"
 echo "--------------------------------------------------------"
 
-# kubectl apply -f srcs/metallb/namespace.yaml || unexpected_error "metallb in kubernetes" $?
-# kubectl apply -f srcs/metallb/metallb.yaml || unexpected_error "metallb in kubernetes" $?
 kubectl apply -f srcs/metallb/metallb-install.yaml || unexpected_error "metallb in kubernetes" $?
 kubectl apply -f srcs/metallb/conf.yaml || unexpected_error "metallb in kubernetes" $?
 

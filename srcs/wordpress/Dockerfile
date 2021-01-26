@@ -31,11 +31,11 @@ RUN apk update && \
 COPY nginx.conf /etc/nginx/
 COPY supervisord.conf /etc/
 COPY php-fpm.conf /etc/php7/
+COPY wp-cli.phar  /usr/local/bin/wp
+COPY set_users.sh /tmp/
 
 WORKDIR /var/www/wordpress
-COPY wordpress.tar.gz .
-RUN tar zxf wordpress.tar.gz --strip 1 && \
-    rm wordpress.tar.gz
+RUN su -c 'wp core download --path=/var/www/wordpress' - www
 COPY wp-config.php .
 
-CMD supervisord
+CMD /tmp/set_users.sh && supervisord
