@@ -83,3 +83,10 @@ echo "--------------------------------------------------------"
 docker build -t wordpress srcs/wordpress || unexpected_error "wordpress in docker" $?
 kubectl apply -f srcs/wordpress || unexpected_error "wordpress in kubernetes" $?
 
+echo "--------------------------------------------------------"
+echo "------------------------ FTPS --------------------------"
+echo "--------------------------------------------------------"
+
+docker build -t ftps srcs/ftps || unexpected_error "ftps in docker" $?
+kubectl apply -f srcs/ftps || unexpected_error "ftps in kubernetes" $?
+

@@ -20,4 +20,8 @@ spec:
         ports:
           - name: https
             containerPort: 21
+          - name: http
+            containerPort: 20
+          - name: pasv
+            containerPort: 30000
       restartPolicy: Always
