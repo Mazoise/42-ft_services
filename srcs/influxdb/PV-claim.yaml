@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: influxdb-pv-claim
   labels:
-    app: grafana
+    app: influxdb
 spec:
   accessModes:
     - ReadWriteOnce

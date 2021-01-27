@@ -4,6 +4,28 @@ GREEN="\033[0;32m"
 RED="\033[0;31m"
 NO_COLOR="\033[0m"
 
+print_title() {
+	DOT_LINE="--------------------------------------------------------"
+	TITLE_LEN=0
+	for word in $@
+		do let "TITLE_LEN += ${#word} + 1"
+	done
+	let "TITLE_LEN -= 1"
+	TMP_LEN=$((54 - $TITLE_LEN))
+	LENGTH_BEG=$(($TMP_LEN / 2))
+	LENGTH_END=$(($TMP_LEN / 2 + $TITLE_LEN % 2))
+	echo "
+	$DOT_LINE"
+	printf "%.*s %s %.*s\n" $LENGTH_BEG $DOT_LINE "$*" $LENGTH_END $DOT_LINE
+	echo $DOT_LINE
+}
+
+run_service() {
+	print_title "${1^^}"
+	docker build -t $1 srcs/$1 || unexpected_error "$1 in docker" $?
+	kubectl apply -f srcs/$1 || unexpected_error "$1 in kubernetes" $?
+}
+
 unexpected_error() {
 	>&2 echo -e "
 	$RED Error : UNEXPECTED ERROR from $1, error code $2 $NO_COLOR
@@ -11,19 +33,7 @@ unexpected_error() {
 		exit
 }
 
-if [ "$1" != "-p" ] ; then
-
-	echo "--------------------------------------------------------"
-	echo "-------------------- CLEANING UP -----------------------"
-	echo "--------------------------------------------------------"
-
-	pkill -f dashboard
-	minikube delete
-
-	echo "--------------------------------------------------------"
-	echo "----------------- STARTING MINIKUBE --------------------"
-	echo "--------------------------------------------------------"
-
+prerequirement_check() {
 	CPU_COUNT=$(cat /proc/cpuinfo | grep "cpu cores" | tail -n1 | rev | cut -d" " -f1 | rev)
 	if [ $CPU_COUNT -lt 2 ] ; then
 		>&2 echo -e "
@@ -43,50 +53,28 @@ if [ "$1" != "-p" ] ; then
 	"
 		exit
 	fi
+}
+
+if [ "$1" != "-p" ] ; then
+
+	print_title "CLEANING UP"
+
+	pkill -f dashboard
+	minikube delete
+
+	print_title "STARTING MINIKUBE"
+	prerequirement_check
 	minikube start --vm-driver=docker || unexpected_error "minikube launcher" $?
 	minikube dashboard &
 fi
 eval $(minikube docker-env)
 
-echo "--------------------------------------------------------"
-echo "---------------------- METALLB -------------------------"
-echo "--------------------------------------------------------"
+print_title "METALLB"
 
 kubectl apply -f srcs/metallb/metallb-install.yaml || unexpected_error "metallb in kubernetes" $?
 kubectl apply -f srcs/metallb/conf.yaml || unexpected_error "metallb in kubernetes" $?
 
-echo "--------------------------------------------------------"
-echo "----------------------- NGINX --------------------------"
-echo "--------------------------------------------------------"
-
-docker build -t nginx srcs/nginx || unexpected_error "nginx in docker" $?
-kubectl apply -f srcs/nginx || unexpected_error "nginx in kubernetes" $?
-
-echo "--------------------------------------------------------"
-echo "----------------------- MYSQL --------------------------"
-echo "--------------------------------------------------------"
-
-docker build -t mysql srcs/mysql || unexpected_error "mysql in docker" $?
-kubectl apply -f srcs/mysql || unexpected_error "mysql in kubernetes" $?
-
-echo "--------------------------------------------------------"
-echo "--------------------- PHPMYADMIN -----------------------"
-echo "--------------------------------------------------------"
-
-docker build -t phpmyadmin srcs/phpmyadmin || unexpected_error "phpmyadmin in docker" $?
-kubectl apply -f srcs/phpmyadmin || unexpected_error "phpmyadmin in kubernetes" $?
-
-echo "--------------------------------------------------------"
-echo "--------------------- WORDPRESS ------------------------"
-echo "--------------------------------------------------------"
-
-docker build -t wordpress srcs/wordpress || unexpected_error "wordpress in docker" $?
-kubectl apply -f srcs/wordpress || unexpected_error "wordpress in kubernetes" $?
-
-echo "--------------------------------------------------------"
-echo "------------------------ FTPS --------------------------"
-echo "--------------------------------------------------------"
-
-docker build -t ftps srcs/ftps || unexpected_error "ftps in docker" $?
-kubectl apply -f srcs/ftps || unexpected_error "ftps in kubernetes" $?
-
+services="nginx mysql influxdb phpmyadmin wordpress ftps grafana"
+for service in $services
+	do run_service $service
+done

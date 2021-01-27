@@ -18,5 +18,7 @@ spec:
         name: influxdb
         imagePullPolicy: Never
         ports:
-        - name: influxdb
+        - name: http
           containerPort: 8086
+        - name: admin
+          containerPort: 8083

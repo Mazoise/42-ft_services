@@ -8,21 +8,21 @@ apiVersion: 1
 
 # # list of datasources to insert/update depending
 # # on what's available in the database
-#datasources:
+datasources:
 #   # <string, required> name of the datasource. Required
-# - name: Graphite
+- name: influxdb
 #   # <string, required> datasource type. Required
-#   type: graphite
+  type: influxdb
 #   # <string, required> access mode. direct or proxy. Required
-#   access: proxy
+  access: proxy
 #   # <int> org id. will default to orgId 1 if not specified
-#   orgId: 1
+  orgId: 1
 #   # <string> url
-#   url: http://localhost:8080
+  url: http://influxdb:8086
 #   # <string> database password, if used
-#   password:
+  password: psw
 #   # <string> database user, if used
-#   user:
+  user: mchardin
 #   # <string> database name, if used
 #   database:
 #   # <bool> enable/disable basic auth

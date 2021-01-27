@@ -6,7 +6,12 @@ metadata:
   name: influxdb
 spec:
   ports:
-    - port: 8086
+  - name: http
+    port: 8086
+    targetPort: 8086
+  - name: admin
+    port: 8083
+    targetPort: 8083
   selector:
     app: influxdb
   type: ClusterIP

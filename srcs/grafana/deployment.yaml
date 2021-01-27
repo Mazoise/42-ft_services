@@ -18,6 +18,6 @@ spec:
         name: grafana
         imagePullPolicy: Never
         ports:
-          - name: https
+          - name: http
             containerPort: 3000
       restartPolicy: Always
