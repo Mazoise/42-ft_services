@@ -22,3 +22,10 @@ spec:
           containerPort: 8086
         - name: admin
           containerPort: 8083
+        volumeMounts:
+          - name: docker-socket
+            mountPath: /var/run/docker.sock
+      volumes:
+        - name: docker-socket
+          persistentVolumeClaim:
+            claimName: docker-socket

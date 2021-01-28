@@ -24,7 +24,7 @@ datasources:
 #   # <string> database user, if used
   user: mchardin
 #   # <string> database name, if used
-#   database:
+  database: influxdb
 #   # <bool> enable/disable basic auth
 #   basicAuth:
 #   # <string> basic auth username

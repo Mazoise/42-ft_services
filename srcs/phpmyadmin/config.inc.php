@@ -25,6 +25,6 @@ $cfg['Servers'][$i]['port'] = '3306';
 $cfg['Servers'][$i]['compress'] = false;
 $cfg['Servers'][$i]['AllowNoPassword'] = true;
 
-
 $cfg['UploadDir'] = '';
 $cfg['SaveDir'] = '';
+$cfg['PmaAbsoluteUri'] = '172.17.0.2:5000/';

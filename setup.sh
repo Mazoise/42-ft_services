@@ -2,26 +2,34 @@
 
 GREEN="\033[0;32m"
 RED="\033[0;31m"
+BOLD_CYAN="\033[1;96m"
+BOLD_YELLOW="\033[1;93m"
 NO_COLOR="\033[0m"
 
+TITLE_COLOR=$BOLD_YELLOW
+
 print_title() {
-	DOT_LINE="--------------------------------------------------------"
-	TITLE_LEN=0
+	echo $TITLE_COLOR
+	DECORATION_LINE="========================================================"
+	DECORATION_LEN=${#DECORATION_LINE}
+	TITLE_LEN=1
 	for word in $@
 		do let "TITLE_LEN += ${#word} + 1"
 	done
-	let "TITLE_LEN -= 1"
-	TMP_LEN=$((54 - $TITLE_LEN))
+	let "TITLE_LEN += 1"
+	TMP_LEN=$(($DECORATION_LEN - $TITLE_LEN))
 	LENGTH_BEG=$(($TMP_LEN / 2))
-	LENGTH_END=$(($TMP_LEN / 2 + $TITLE_LEN % 2))
-	echo "
-	$DOT_LINE"
-	printf "%.*s %s %.*s\n" $LENGTH_BEG $DOT_LINE "$*" $LENGTH_END $DOT_LINE
-	echo $DOT_LINE
+	START_END=$(($LENGTH_BEG + $TITLE_LEN))
+	END_DECORATION=$(echo $DECORATION_LINE | cut -c$START_END-)
+	echo
+	echo "$DECORATION_LINE"
+	printf "%.*s %s %s\n" $LENGTH_BEG $DECORATION_LINE "${*^^}" $END_DECORATION
+	echo $DECORATION_LINE
+	echo $NO_COLOR
 }
 
 run_service() {
-	print_title "${1^^}"
+	print_title $1
 	docker build -t $1 srcs/$1 || unexpected_error "$1 in docker" $?
 	kubectl apply -f srcs/$1 || unexpected_error "$1 in kubernetes" $?
 }

@@ -2,7 +2,6 @@ FROM alpine
 
 EXPOSE 8086
 EXPOSE 8083
-EXPOSE 2003
 
 USER root
 
@@ -11,9 +10,9 @@ RUN apk update && \
     influxdb \
     telegraf \
     supervisor && \
-    mkdir -p /var/lib/influxdb
+    mkdir -p /var/lib/influxdb /etc/telegraf
 
 COPY supervisord.conf /etc/
-# COPY influxdb.conf /etc/
+COPY telegraf.conf /etc/telegraf/
 
 CMD supervisord
