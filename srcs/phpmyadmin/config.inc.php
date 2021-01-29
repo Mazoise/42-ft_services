@@ -27,5 +27,5 @@ $cfg['Servers'][$i]['AllowNoPassword'] = true;
 
 $cfg['UploadDir'] = '';
 $cfg['SaveDir'] = '';
-$cfg['TempDir'] = '/tmp/phpmyadmin';
+// $cfg['TempDir'] = '';
 $cfg['PmaAbsoluteUri'] = './';
