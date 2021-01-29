@@ -9,7 +9,7 @@ NO_COLOR="\033[0m"
 TITLE_COLOR=$BOLD_YELLOW
 
 print_title() {
-	echo $TITLE_COLOR
+	echo -e $TITLE_COLOR
 	DECORATION_LINE="========================================================"
 	DECORATION_LEN=${#DECORATION_LINE}
 	TITLE_LEN=1
@@ -25,7 +25,7 @@ print_title() {
 	echo "$DECORATION_LINE"
 	printf "%.*s %s %s\n" $LENGTH_BEG $DECORATION_LINE "${*^^}" $END_DECORATION
 	echo $DECORATION_LINE
-	echo $NO_COLOR
+	echo -e $NO_COLOR
 }
 
 run_service() {
