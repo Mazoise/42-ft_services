@@ -23,11 +23,10 @@ RUN apk update && \
 	php7-zlib \
 	php7-fpm \
 	supervisor && \
-	mkdir -p /run/nginx /var/www/phpmyadmin/tmp && \
+	mkdir -p /run/nginx /var/www/phpmyadmin && \
 	adduser -D -g 'www' www && \
 	chown -R www:www /var/lib/nginx && \
-	chown -R www:www /var/www && \
-	chown -R www:www /var/www/phpmyadmin/tmp
+	chown -R www:www /var/www
 
 COPY nginx.conf /etc/nginx/
 COPY supervisord.conf /etc/
